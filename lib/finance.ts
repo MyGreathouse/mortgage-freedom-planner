@@ -100,3 +100,64 @@ export function fmtCurrency(n: number | undefined | null, currency: string, dp =
   const abs = Math.abs(n);
   return sign + symbol + abs.toLocaleString('en-GB', { minimumFractionDigits: dp, maximumFractionDigits: dp });
 }
+
+export interface PaymentBreakdownPoint {
+  month: number;
+  year: number;
+  interestPortion: number;
+  capitalPortion: number;
+  balanceAfter: number;
+}
+
+export interface PaymentBreakdownResult {
+  monthlyRatePct: number;
+  firstMonth: PaymentBreakdownPoint;
+  milestones: PaymentBreakdownPoint[];
+  monthsToPayOff: number | null;
+  negativeAmortization: boolean;
+}
+
+/**
+ * Builds a month-by-month interest/capital split using the person's own stated monthly
+ * payment (not a recalculated "required" payment) — mirrors how a real statement works:
+ * interest is charged on today's balance, and whatever's left of the payment reduces the
+ * capital. Returns the first month in full, plus yearly milestones through to payoff.
+ */
+export function buildPaymentBreakdown(balance: number, annualRate: number, monthlyPayment: number, maxMonths = 720): PaymentBreakdownResult {
+  const r = annualRate / 100 / 12;
+  let bal = balance;
+  const milestones: PaymentBreakdownPoint[] = [];
+  let firstMonth: PaymentBreakdownPoint | null = null;
+  let monthsToPayOff: number | null = null;
+  let negativeAmortization = false;
+
+  for (let month = 1; month <= maxMonths; month++) {
+    const interestPortion = bal * r;
+    let capitalPortion = monthlyPayment - interestPortion;
+
+    if (capitalPortion <= 0) {
+      negativeAmortization = true;
+      break;
+    }
+    if (capitalPortion > bal) capitalPortion = bal;
+
+    bal -= capitalPortion;
+    const point: PaymentBreakdownPoint = { month, year: Math.ceil(month / 12), interestPortion, capitalPortion, balanceAfter: Math.max(bal, 0) };
+
+    if (month === 1) firstMonth = point;
+    if (month === 1 || month % 12 === 0 || bal <= 0.5) milestones.push(point);
+
+    if (bal <= 0.5) {
+      monthsToPayOff = month;
+      break;
+    }
+  }
+
+  return {
+    monthlyRatePct: (annualRate / 12),
+    firstMonth: firstMonth ?? { month: 1, year: 1, interestPortion: balance * r, capitalPortion: 0, balanceAfter: balance },
+    milestones,
+    monthsToPayOff,
+    negativeAmortization
+  };
+}

@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import Card from '@/components/ui/Card';
 import { ProgressBar, SectionHeader, StatTile } from '@/components/ui/Primitives';
 import { ChevronIcon, CloseIcon, EditIcon, PlusIcon } from '@/components/ui/Icons';
-import { fmtCurrency } from '@/lib/finance';
+import { buildPaymentBreakdown, fmtCurrency, monthsToYM } from '@/lib/finance';
 import { goalSuggestion } from '@/lib/goalSuggestions';
 import { AppState } from '@/lib/useAppState';
 
@@ -28,6 +28,12 @@ export default function WealthScreen({ app }: { app: AppState }) {
   const progressFactor = Math.max(0, Math.min(25, debtPaidPct * 0.35));
   const termFactor = Math.max(0, Math.min(15, (mortgage.termYears - mortgage.remainingYears) * 1.2));
   const score = Math.min(100, Math.round(rateFactor + equityFactor + progressFactor + termFactor));
+
+  const breakdown = buildPaymentBreakdown(mortgage.balance, mortgage.rate, mortgage.monthlyPayment);
+  const capitalPctOfPayment = mortgage.monthlyPayment > 0 ? (breakdown.firstMonth.capitalPortion / mortgage.monthlyPayment) * 100 : 0;
+  const breakdownMilestones = breakdown.milestones.filter(
+    (m, i) => m.month === 1 || m.month % 60 === 0 || i === breakdown.milestones.length - 1
+  );
 
   function startEdit(id: number, title: string) {
     setEditingGoalId(id);
@@ -67,6 +73,76 @@ export default function WealthScreen({ app }: { app: AppState }) {
           <StatTile label="% paid off" value={`${debtPaidPct.toFixed(1)}%`} accent="var(--color-teal)" />
         </div>
         <ProgressBar pct={debtPaidPct} color="var(--color-teal)" />
+      </Card>
+
+      <Card>
+        <div className="text-[13px] font-bold text-teal mb-1">Where Your Payment Goes</div>
+        <div className="text-[11.5px] text-ink-soft mb-3">Based on your current balance, rate, and monthly payment as entered in Profile</div>
+
+        {breakdown.negativeAmortization ? (
+          <div className="text-[12.5px] text-brand-red leading-relaxed bg-[#FBEFEA] border border-[#E3B9A5] rounded-lg p-3">
+            Your current monthly payment doesn&apos;t fully cover the interest being charged, so none of it is reducing your balance yet.
+            Double-check your rate and payment amount in Profile, or consider increasing your payment.
+          </div>
+        ) : (
+          <>
+            <div className="flex flex-wrap gap-4 mb-3">
+              <StatTile label="Goes to interest" value={fmtCurrency(breakdown.firstMonth.interestPortion, currency)} accent="#B3452E" />
+              <StatTile label="Goes to capital" value={fmtCurrency(breakdown.firstMonth.capitalPortion, currency)} accent="var(--color-teal)" />
+            </div>
+            <ProgressBar pct={capitalPctOfPayment} color="var(--color-teal)" />
+            <div className="text-xs text-ink-soft mt-2 mb-3">{capitalPctOfPayment.toFixed(1)}% of this payment reduces what you owe</div>
+
+            <div className="bg-[#FAF9F6] rounded-lg p-3 text-[12px] text-ink-soft leading-relaxed space-y-1">
+              <div>
+                Monthly interest rate: {mortgage.rate}% ÷ 12 = <strong className="text-navy">{breakdown.monthlyRatePct.toFixed(3)}%</strong>
+              </div>
+              <div>
+                Interest charged: {fmtCurrency(mortgage.balance, currency)} × {breakdown.monthlyRatePct.toFixed(3)}% ={' '}
+                <strong className="text-navy">{fmtCurrency(breakdown.firstMonth.interestPortion, currency)}</strong>
+              </div>
+              <div>
+                Capital repayment: {fmtCurrency(mortgage.monthlyPayment, currency)} − {fmtCurrency(breakdown.firstMonth.interestPortion, currency)} ={' '}
+                <strong className="text-navy">{fmtCurrency(breakdown.firstMonth.capitalPortion, currency)}</strong>
+              </div>
+            </div>
+
+            <div className="text-[13px] font-bold text-teal mt-4 mb-1">How This Changes Over Time</div>
+            <div className="text-[12px] text-ink-soft leading-relaxed mb-3">
+              Because your balance drops a little each month, the bank charges slightly less interest next time — so a little more of the
+              same payment goes toward capital, and a little less toward interest. Here&apos;s how that split shifts over the years ahead:
+            </div>
+            <div className="overflow-x-auto -mx-1">
+              <table className="w-full text-[11px] border-collapse">
+                <thead>
+                  <tr>
+                    <th className="text-left font-bold text-gold-light bg-navy px-2 py-1.5">Year</th>
+                    <th className="text-right font-bold text-gold-light bg-navy px-2 py-1.5">Interest</th>
+                    <th className="text-right font-bold text-gold-light bg-navy px-2 py-1.5">Capital</th>
+                    <th className="text-right font-bold text-gold-light bg-navy px-2 py-1.5">% Capital</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {breakdownMilestones.map((m, i) => (
+                    <tr key={m.month} className={i % 2 === 0 ? 'bg-[#FAF9F6]' : 'bg-white'}>
+                      <td className="px-2 py-1.5 border border-line font-bold text-navy">Y{m.year}</td>
+                      <td className="px-2 py-1.5 border border-line text-right">{fmtCurrency(m.interestPortion, currency)}</td>
+                      <td className="px-2 py-1.5 border border-line text-right">{fmtCurrency(m.capitalPortion, currency)}</td>
+                      <td className="px-2 py-1.5 border border-line text-right text-teal font-bold">
+                        {((m.capitalPortion / (m.interestPortion + m.capitalPortion)) * 100).toFixed(0)}%
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {breakdown.monthsToPayOff && (
+              <div className="text-[11.5px] text-ink-soft mt-2.5 italic">
+                At this payment amount held flat, your balance would clear in around {monthsToYM(breakdown.monthsToPayOff)}.
+              </div>
+            )}
+          </>
+        )}
       </Card>
 
       <Card>
