@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useAppState } from '@/lib/useAppState';
 import { TabId } from '@/lib/types';
-import { ChevronIcon, HomeIcon, CalcIcon, ChartIcon, BuildIcon, SparkIcon } from '@/components/ui/Icons';
+import { ChevronIcon, HomeIcon, CalcIcon, ChartIcon, BuildIcon, SparkIcon, ChecklistIcon } from '@/components/ui/Icons';
 
 import SetupScreen from '@/components/screens/SetupScreen';
 import CalculatorScreen from '@/components/screens/CalculatorScreen';
@@ -23,6 +23,7 @@ const TABS: { id: TabId; label: string; Icon: React.ComponentType<{ size?: numbe
   { id: 'setup', label: 'Profile', Icon: HomeIcon },
   { id: 'calc', label: 'Calculator', Icon: CalcIcon },
   { id: 'wealth', label: 'Wealth', Icon: ChartIcon },
+  { id: 'repaymenttracker', label: 'Track', Icon: ChecklistIcon },
   { id: 'more', label: 'More', Icon: BuildIcon }
 ];
 
@@ -34,8 +35,7 @@ const SUB_SCREENS: TabId[] = [
   'rentalcalc',
   'education',
   'notifications',
-  'export',
-  'repaymenttracker'
+  'export'
 ];
 
 export default function AppShell() {
@@ -117,10 +117,10 @@ export default function AppShell() {
               <button
                 key={t.id}
                 onClick={() => navigate(t.id)}
-                className="bg-transparent border-0 flex flex-col items-center gap-0.5 py-1 px-2.5 transition-transform active:scale-95"
+                className="bg-transparent border-0 flex flex-col items-center gap-0.5 py-1 px-1.5 flex-1 transition-transform active:scale-95"
               >
-                <t.Icon size={20} className={active ? 'text-gold' : 'text-[#A3ACBE]'} />
-                <span className={['text-[10.5px]', active ? 'text-navy font-bold' : 'text-[#A3ACBE] font-medium'].join(' ')}>{t.label}</span>
+                <t.Icon size={19} className={active ? 'text-gold' : 'text-[#A3ACBE]'} />
+                <span className={['text-[10px]', active ? 'text-navy font-bold' : 'text-[#A3ACBE] font-medium'].join(' ')}>{t.label}</span>
               </button>
             );
           })}

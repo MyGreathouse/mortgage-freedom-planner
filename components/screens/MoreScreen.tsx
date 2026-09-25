@@ -5,7 +5,6 @@ import { SectionHeader } from '@/components/ui/Primitives';
 import {
   BellIcon,
   BuildingIcon,
-  ChecklistIcon,
   ChevronIcon,
   DownloadIcon,
   GoalIcon,
@@ -19,7 +18,6 @@ import { TabId } from '@/lib/types';
 const ITEMS: { id: TabId; title: string; desc: string; Icon: React.ComponentType<{ size?: number }> }[] = [
   { id: 'compare', title: 'Overpay vs Invest', desc: 'Compare guaranteed savings against potential investment growth', Icon: TrendIcon },
   { id: 'goals', title: 'Financial Goals', desc: 'Set and track milestones toward mortgage freedom', Icon: GoalIcon },
-  { id: 'repaymenttracker', title: 'Repayment Tracker', desc: 'Tick off real overpayments and lump sums as you make them', Icon: ChecklistIcon },
   { id: 'wealthbuilder', title: 'Property Wealth Builder', desc: 'Your roadmap from first home to a property portfolio', Icon: LayersIcon },
   { id: 'equityrelease', title: 'Equity Release Simulator', desc: 'Explore how much equity you could potentially access', Icon: UnlockIcon },
   { id: 'rentalcalc', title: 'Rental Property Calculator', desc: 'Estimate cash flow on a buy-to-let purchase', Icon: BuildingIcon },
