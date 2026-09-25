@@ -46,6 +46,7 @@ function buildReportHTML(app: AppState): string {
   <h2>Financial Goals</h2>
   <ul>${goalsList || '<li>No goals recorded yet.</li>'}</ul>
   <div class="disclaimer">This report is generated for educational and personal planning purposes only and does not constitute financial or mortgage advice. Figures are estimates based on the information entered and standard amortisation assumptions; actual lender terms may differ. Please speak to a qualified, FCA-regulated mortgage adviser before making financial decisions.</div>
+  <div class="disclaimer" style="margin-top:14px;border-top:none;padding-top:0;">Mortgage Freedom Planner — © ${new Date().getFullYear()} Risten Global Ltd. All rights reserved.</div>
   </body></html>`;
 }
 

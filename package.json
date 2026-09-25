@@ -2,6 +2,10 @@
   "name": "mortgage-freedom-planner",
   "version": "1.0.0",
   "private": true,
+  "description": "Mortgage overpayment calculator and property wealth planner.",
+  "author": "Risten Global Ltd",
+  "license": "UNLICENSED",
+  "copyright": "Copyright (c) 2026 Risten Global Ltd. All Rights Reserved.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

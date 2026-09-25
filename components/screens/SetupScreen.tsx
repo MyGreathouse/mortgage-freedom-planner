@@ -121,6 +121,11 @@ export default function SetupScreen({ app }: { app: AppState }) {
         {savedFlash ? 'Saved ✓' : 'Save Mortgage Profile'}
       </button>
       <p className="text-[11.5px] text-ink-soft text-center mt-2">Changes save automatically as you type.</p>
+
+      <div className="text-center mt-8 pb-2">
+        <div className="text-[11px] text-ink-soft">Mortgage Freedom Planner</div>
+        <div className="text-[10.5px] text-ink-soft mt-0.5">© {new Date().getFullYear()} Risten Global Ltd. All rights reserved.</div>
+      </div>
     </div>
   );
 }
