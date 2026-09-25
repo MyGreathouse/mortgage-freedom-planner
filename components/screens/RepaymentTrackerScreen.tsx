@@ -6,7 +6,25 @@ import { ProgressBar, SectionHeader, StatTile } from '@/components/ui/Primitives
 import { addMonths, fmtCurrency, fmtMonthYear, monthsElapsedSince, monthsToYM, simulateMortgage } from '@/lib/finance';
 import { AppState } from '@/lib/useAppState';
 
-const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const MONTH_LABELS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+
+function TickBox({ ticked, jan }: { ticked: boolean; jan?: boolean }) {
+  return (
+    <span
+      className="w-4 h-4 rounded-[3px] border-[1.5px] inline-flex items-center justify-center flex-shrink-0"
+      style={{
+        borderColor: ticked ? (jan ? '#b3781a' : 'var(--color-navy)') : 'var(--color-navy)',
+        background: ticked ? (jan ? '#b3781a' : 'var(--color-navy)') : '#fff'
+      }}
+    >
+      {ticked && (
+        <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
+          <path d="M1.5 5.2L4 7.7L8.5 2.3" stroke="var(--color-gold-light)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )}
+    </span>
+  );
+}
 
 export default function RepaymentTrackerScreen({ app }: { app: AppState }) {
   const { mortgage, currency, calculatorSettings, repaymentTicks, toggleMonthTick, toggleYearTick, resetRepaymentTicks } = app;
@@ -64,8 +82,8 @@ export default function RepaymentTrackerScreen({ app }: { app: AppState }) {
         <Card className="!bg-[var(--color-highlight-bg)] !border-gold-light">
           <div className="text-[13px] text-navy leading-relaxed font-semibold mb-1">No overpayment plan active yet</div>
           <div className="text-[12.5px] text-ink-soft leading-relaxed">
-            Go to the Calculator tab and tick "Add an extra monthly overpayment" or "Add a one-off lump sum" to set an amount — this tracker
-            will then let you log each real payment as it happens.
+            Go to the Calculator tab and tick &quot;Add an extra monthly overpayment&quot; or &quot;Add a one-off lump sum&quot; to set an
+            amount — this tracker will then let you log each real payment as it happens.
           </div>
         </Card>
       )}
@@ -89,20 +107,23 @@ export default function RepaymentTrackerScreen({ app }: { app: AppState }) {
 
           {monthlyOverpayEnabled && (
             <Card>
-              <div className="flex items-center justify-between mb-1">
-                <div className="text-[13px] font-bold text-teal">Monthly Overpayment Tracker</div>
-                <div className="text-[11px] text-ink-soft">{fmtCurrency(monthlyOverpayAmount, currency)} per box</div>
+              <div className="flex items-center justify-between mb-1 flex-wrap gap-1">
+                <div className="text-[13px] font-bold text-navy">
+                  Monthly Savings Tracker — <span className="text-teal">{fmtCurrency(monthlyOverpayAmount, currency)}</span> per box
+                </div>
               </div>
               <div className={['text-[11px] font-semibold mb-3', monthsPaceDelta < 0 ? 'text-brand-red' : 'text-teal'].join(' ')}>
                 {monthsTickedCount} of {termMonths} months ticked · {paceLabel(monthsPaceDelta, 'months')}
               </div>
-              <div className="overflow-x-auto -mx-1">
-                <table className="border-collapse text-[9px] min-w-full">
+              <div className="overflow-x-auto -mx-4 px-4">
+                <table className="border-collapse text-[10px] w-full">
                   <thead>
                     <tr>
-                      <th className="sticky left-0 bg-navy text-gold-light px-1.5 py-1 text-left font-semibold">Yr</th>
+                      <th className="sticky left-0 z-10 bg-navy text-gold-light px-2 py-1.5 text-left font-bold uppercase text-[9.5px]">
+                        Year
+                      </th>
                       {MONTH_LABELS.map((m) => (
-                        <th key={m} className="bg-navy text-gold-light px-1 py-1 font-semibold">
+                        <th key={m} className="bg-navy text-gold-light px-1 py-1.5 font-bold text-[9px] text-center">
                           {m}
                         </th>
                       ))}
@@ -110,25 +131,26 @@ export default function RepaymentTrackerScreen({ app }: { app: AppState }) {
                   </thead>
                   <tbody>
                     {Array.from({ length: mortgage.remainingYears }, (_, yi) => yi + 1).map((year) => (
-                      <tr key={year} className={year % 2 === 0 ? 'bg-[#FAF9F6]' : ''}>
-                        <td className="sticky left-0 bg-[#EEF1F6] font-bold text-navy px-1.5 py-1 border border-line text-left">Y{year}</td>
+                      <tr key={year} className={year % 2 === 0 ? 'bg-[#FAF9F6]' : 'bg-white'}>
+                        <td className="sticky left-0 z-10 bg-[#EEF1F6] font-bold text-navy px-2 py-1 border border-line text-left text-[10.5px]">
+                          Y{year}
+                        </td>
                         {MONTH_LABELS.map((_, mi) => {
                           const absMonth = (year - 1) * 12 + mi + 1;
                           const ticked = monthsTickedSet.has(absMonth);
+                          const isJan = mi === 0;
                           return (
-                            <td key={mi} className="border border-line p-0 text-center">
+                            <td
+                              key={mi}
+                              className="border border-line p-0 text-center"
+                              style={isJan && !ticked ? { background: 'var(--color-highlight-bg)' } : undefined}
+                            >
                               <button
                                 onClick={() => toggleMonthTick(absMonth)}
-                                className="w-full h-full min-w-[20px] min-h-[20px] flex items-center justify-center"
+                                className="w-full h-full min-w-[26px] min-h-[26px] flex items-center justify-center"
                                 aria-label={`Year ${year} ${MONTH_LABELS[mi]}`}
                               >
-                                <span
-                                  className="w-3 h-3 rounded-sm border inline-block"
-                                  style={{
-                                    borderColor: ticked ? 'var(--color-navy)' : 'var(--color-line)',
-                                    background: ticked ? 'var(--color-navy)' : '#fff'
-                                  }}
-                                />
+                                <TickBox ticked={ticked} jan={isJan} />
                               </button>
                             </td>
                           );
@@ -144,14 +166,13 @@ export default function RepaymentTrackerScreen({ app }: { app: AppState }) {
 
           {lumpSumEnabled && (
             <Card>
-              <div className="flex items-center justify-between mb-1">
-                <div className="text-[13px] font-bold text-teal">Annual Lump Sum Tracker</div>
-                <div className="text-[11px] text-ink-soft">{fmtCurrency(lumpSumAmount, currency)} per box</div>
+              <div className="text-[13px] font-bold text-navy mb-1">
+                January Injection Tracker — <span className="text-teal">{fmtCurrency(lumpSumAmount, currency)}</span> per box
               </div>
               <div className={['text-[11px] font-semibold mb-3', yearsPaceDelta < 0 ? 'text-brand-red' : 'text-teal'].join(' ')}>
                 {yearsTickedCount} of {mortgage.remainingYears} years ticked · {paceLabel(yearsPaceDelta, 'years')}
               </div>
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-3 gap-2">
                 {Array.from({ length: mortgage.remainingYears }, (_, yi) => yi + 1).map((year) => {
                   const ticked = yearsTickedSet.has(year);
                   return (
@@ -159,15 +180,12 @@ export default function RepaymentTrackerScreen({ app }: { app: AppState }) {
                       key={year}
                       onClick={() => toggleYearTick(year)}
                       className={[
-                        'flex items-center gap-1.5 rounded-lg px-2 py-2 border text-left',
+                        'flex items-center gap-1.5 rounded-md px-2 py-2 border text-left',
                         ticked ? 'bg-[var(--color-highlight-bg)] border-gold' : 'bg-[#FAF9F6] border-line'
                       ].join(' ')}
                     >
-                      <span
-                        className="w-3.5 h-3.5 rounded-sm border flex-shrink-0"
-                        style={{ borderColor: ticked ? 'var(--color-gold)' : 'var(--color-line)', background: ticked ? 'var(--color-gold)' : '#fff' }}
-                      />
-                      <span className="text-[10.5px] font-bold text-navy">Y{year}</span>
+                      <TickBox ticked={ticked} />
+                      <span className="text-[10.5px] font-bold text-navy">Year {year}</span>
                     </button>
                   );
                 })}
@@ -182,7 +200,8 @@ export default function RepaymentTrackerScreen({ app }: { app: AppState }) {
             Reset All Ticks
           </button>
           <p className="text-[11px] text-ink-soft text-center mt-2 leading-relaxed">
-            Every tick is saved automatically, same as the rest of your plan.
+            Tick a box the moment that payment clears in real life. Every input on this page — your ticks, currency, and amounts — is saved
+            automatically and restored the next time you open this tool.
           </p>
         </>
       )}
