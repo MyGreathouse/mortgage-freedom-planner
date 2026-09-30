@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useAppState } from '@/lib/useAppState';
 import { TabId } from '@/lib/types';
-import { ChevronIcon, HomeIcon, CalcIcon, ChartIcon, BuildIcon, SparkIcon, ChecklistIcon, SunIcon, MoonIcon } from '@/components/ui/Icons';
+import { ChevronIcon, HomeIcon, CalcIcon, ChartIcon, BuildIcon, SparkIcon, ChecklistIcon } from '@/components/ui/Icons';
 
 import SetupScreen from '@/components/screens/SetupScreen';
 import CalculatorScreen from '@/components/screens/CalculatorScreen';
@@ -52,15 +52,6 @@ export default function AppShell() {
     }
   }, [app.theme]);
 
-  // Apply the selected day/night mode the same way — independent of colour theme
-  useEffect(() => {
-    if (app.mode === 'dark') {
-      document.documentElement.setAttribute('data-mode', 'dark');
-    } else {
-      document.documentElement.removeAttribute('data-mode');
-    }
-  }, [app.mode]);
-
   function navigate(next: TabId) {
     if (next === tab) return;
     setTab(next);
@@ -97,14 +88,6 @@ export default function AppShell() {
             <div className="text-gold-light text-[10.5px] tracking-wide mt-0.5">Your path to property wealth</div>
           </div>
         </div>
-
-        <button
-          onClick={app.toggleMode}
-          className="bg-white/10 border-0 rounded-full w-9 h-9 flex items-center justify-center flex-shrink-0 transition-colors active:bg-white/20"
-          aria-label={app.mode === 'dark' ? 'Switch to day mode' : 'Switch to night mode'}
-        >
-          {app.mode === 'dark' ? <SunIcon size={17} className="text-gold-light" /> : <MoonIcon size={17} className="text-gold-light" />}
-        </button>
       </div>
 
       <div key={animKey} className="animate-fadeUp">
@@ -125,7 +108,7 @@ export default function AppShell() {
 
       {!isSubScreen && (
         <div
-          className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-surface border-t border-line flex justify-around z-30"
+          className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-[480px] bg-white border-t border-line flex justify-around z-30"
           style={{ padding: '8px 4px calc(8px + var(--safe-bottom))' }}
         >
           {TABS.map((t) => {
@@ -137,7 +120,7 @@ export default function AppShell() {
                 className="bg-transparent border-0 flex flex-col items-center gap-0.5 py-1 px-1.5 flex-1 transition-transform active:scale-95"
               >
                 <t.Icon size={19} className={active ? 'text-gold' : 'text-[#A3ACBE]'} />
-                <span className={['text-[10px]', active ? 'text-ink font-bold' : 'text-[#A3ACBE] font-medium'].join(' ')}>{t.label}</span>
+                <span className={['text-[10px]', active ? 'text-navy font-bold' : 'text-[#A3ACBE] font-medium'].join(' ')}>{t.label}</span>
               </button>
             );
           })}
