@@ -40,7 +40,7 @@ export default function MoreScreen({ onNavigate }: { onNavigate: (tab: TabId) =>
             <it.Icon size={20} />
           </div>
           <div className="flex-1">
-            <div className="font-bold text-navy text-[15px]">{it.title}</div>
+            <div className="font-bold text-ink text-[15px]">{it.title}</div>
             <div className="text-xs text-ink-soft mt-0.5">{it.desc}</div>
           </div>
           <div className="text-ink-soft">

@@ -26,7 +26,7 @@ export default function EducationScreen() {
         return (
           <Card key={t.id} className="cursor-pointer" onClick={() => setOpenId(open ? null : t.id)}>
             <div className="flex items-center justify-between">
-              <div className="font-bold text-navy text-[14.5px]">{t.title}</div>
+              <div className="font-bold text-ink text-[14.5px]">{t.title}</div>
               <div className={['text-ink-soft transition-transform', open ? 'rotate-90' : ''].join(' ')}>
                 <ChevronIcon />
               </div>

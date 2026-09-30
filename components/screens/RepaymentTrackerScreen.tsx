@@ -80,7 +80,7 @@ export default function RepaymentTrackerScreen({ app }: { app: AppState }) {
 
       {!anyEnabled && (
         <Card className="!bg-[var(--color-highlight-bg)] !border-gold-light">
-          <div className="text-[13px] text-navy leading-relaxed font-semibold mb-1">No overpayment plan active yet</div>
+          <div className="text-[13px] text-ink leading-relaxed font-semibold mb-1">No overpayment plan active yet</div>
           <div className="text-[12.5px] text-ink-soft leading-relaxed">
             Go to the Calculator tab and tick &quot;Add an extra monthly overpayment&quot; or &quot;Add a one-off lump sum&quot; to set an
             amount — this tracker will then let you log each real payment as it happens.
@@ -108,11 +108,11 @@ export default function RepaymentTrackerScreen({ app }: { app: AppState }) {
           {monthlyOverpayEnabled && (
             <Card>
               <div className="flex items-center justify-between mb-1 flex-wrap gap-1">
-                <div className="text-[13px] font-bold text-navy">
-                  Monthly Savings Tracker — <span className="text-teal">{fmtCurrency(monthlyOverpayAmount, currency)}</span> per box
+                <div className="text-[13px] font-bold text-ink">
+                  Monthly Savings Tracker — <span className="text-accentText">{fmtCurrency(monthlyOverpayAmount, currency)}</span> per box
                 </div>
               </div>
-              <div className={['text-[11px] font-semibold mb-3', monthsPaceDelta < 0 ? 'text-brand-red' : 'text-teal'].join(' ')}>
+              <div className={['text-[11px] font-semibold mb-3', monthsPaceDelta < 0 ? 'text-brand-red' : 'text-accentText'].join(' ')}>
                 {monthsTickedCount} of {termMonths} months ticked · {paceLabel(monthsPaceDelta, 'months')}
               </div>
               <div className="overflow-x-auto -mx-4 px-4">
@@ -131,8 +131,8 @@ export default function RepaymentTrackerScreen({ app }: { app: AppState }) {
                   </thead>
                   <tbody>
                     {Array.from({ length: mortgage.remainingYears }, (_, yi) => yi + 1).map((year) => (
-                      <tr key={year} className={year % 2 === 0 ? 'bg-[#FAF9F6]' : 'bg-white'}>
-                        <td className="sticky left-0 z-10 bg-[#EEF1F6] font-bold text-navy px-2 py-1 border border-line text-left text-[10.5px]">
+                      <tr key={year} className={year % 2 === 0 ? 'bg-[var(--color-row-alt)]' : 'bg-surface'}>
+                        <td className="sticky left-0 z-10 bg-[var(--color-field-bg)] font-bold text-ink px-2 py-1 border border-line text-left text-[10.5px]">
                           Y{year}
                         </td>
                         {MONTH_LABELS.map((_, mi) => {
@@ -166,10 +166,10 @@ export default function RepaymentTrackerScreen({ app }: { app: AppState }) {
 
           {lumpSumEnabled && (
             <Card>
-              <div className="text-[13px] font-bold text-navy mb-1">
-                January Injection Tracker — <span className="text-teal">{fmtCurrency(lumpSumAmount, currency)}</span> per box
+              <div className="text-[13px] font-bold text-ink mb-1">
+                January Injection Tracker — <span className="text-accentText">{fmtCurrency(lumpSumAmount, currency)}</span> per box
               </div>
-              <div className={['text-[11px] font-semibold mb-3', yearsPaceDelta < 0 ? 'text-brand-red' : 'text-teal'].join(' ')}>
+              <div className={['text-[11px] font-semibold mb-3', yearsPaceDelta < 0 ? 'text-brand-red' : 'text-accentText'].join(' ')}>
                 {yearsTickedCount} of {mortgage.remainingYears} years ticked · {paceLabel(yearsPaceDelta, 'years')}
               </div>
               <div className="grid grid-cols-3 gap-2">
@@ -181,11 +181,11 @@ export default function RepaymentTrackerScreen({ app }: { app: AppState }) {
                       onClick={() => toggleYearTick(year)}
                       className={[
                         'flex items-center gap-1.5 rounded-md px-2 py-2 border text-left',
-                        ticked ? 'bg-[var(--color-highlight-bg)] border-gold' : 'bg-[#FAF9F6] border-line'
+                        ticked ? 'bg-[var(--color-highlight-bg)] border-gold' : 'bg-[var(--color-row-alt)] border-line'
                       ].join(' ')}
                     >
                       <TickBox ticked={ticked} />
-                      <span className="text-[10.5px] font-bold text-navy">Year {year}</span>
+                      <span className="text-[10.5px] font-bold text-ink">Year {year}</span>
                     </button>
                   );
                 })}
@@ -195,7 +195,7 @@ export default function RepaymentTrackerScreen({ app }: { app: AppState }) {
 
           <button
             onClick={handleReset}
-            className="w-full py-3 rounded-xl border-[1.5px] border-line bg-white text-ink-soft font-bold text-[13px] mt-1"
+            className="w-full py-3 rounded-xl border-[1.5px] border-line bg-surface text-ink-soft font-bold text-[13px] mt-1"
           >
             Reset All Ticks
           </button>

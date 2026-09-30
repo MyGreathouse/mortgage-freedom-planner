@@ -25,7 +25,7 @@ export default function SetupScreen({ app }: { app: AppState }) {
       <SectionHeader eyebrow="Your Profile" title="Mortgage Setup" />
 
       <Card>
-        <div className="text-[13px] font-bold text-teal mb-3">Preferences</div>
+        <div className="text-[13px] font-bold text-accentText mb-3">Preferences</div>
         <SelectField
           label="Preferred currency"
           value={currency}
@@ -46,7 +46,7 @@ export default function SetupScreen({ app }: { app: AppState }) {
                 onClick={() => setTheme(t.id)}
                 className={[
                   'text-left rounded-xl border-[1.5px] px-3 py-2.5 transition-colors',
-                  active ? 'border-gold bg-[var(--color-highlight-bg)]' : 'border-line bg-white'
+                  active ? 'border-gold bg-[var(--color-highlight-bg)]' : 'border-line bg-surface'
                 ].join(' ')}
               >
                 <div className="flex items-center gap-1.5 mb-1.5">
@@ -55,7 +55,7 @@ export default function SetupScreen({ app }: { app: AppState }) {
                   <span className="w-4 h-4 rounded-full border border-white shadow-sm -ml-2.5" style={{ background: t.swatch.teal }} />
                   {active && <span className="ml-auto text-gold font-bold text-xs">✓</span>}
                 </div>
-                <div className="text-[12.5px] font-bold text-navy leading-tight">{t.label}</div>
+                <div className="text-[12.5px] font-bold text-ink leading-tight">{t.label}</div>
                 <div className="text-[11px] text-ink-soft mt-0.5 leading-tight">{t.description}</div>
               </button>
             );
@@ -72,14 +72,14 @@ export default function SetupScreen({ app }: { app: AppState }) {
       </Card>
 
       <Card>
-        <div className="text-[13px] font-bold text-teal mb-3">Property</div>
+        <div className="text-[13px] font-bold text-accentText mb-3">Property</div>
         <NumberField label="Original purchase price" prefix={CURRENCIES[currency].symbol} value={mortgage.purchasePrice} onChange={(v) => updateMortgageField('purchasePrice', v)} step={1000} />
         <NumberField label="Current property value" prefix={CURRENCIES[currency].symbol} value={mortgage.currentValue} onChange={(v) => updateMortgageField('currentValue', v)} step={1000} />
         <NumberField label="Deposit paid" prefix={CURRENCIES[currency].symbol} value={mortgage.deposit} onChange={(v) => updateMortgageField('deposit', v)} step={500} />
       </Card>
 
       <Card>
-        <div className="text-[13px] font-bold text-teal mb-3">Mortgage</div>
+        <div className="text-[13px] font-bold text-accentText mb-3">Mortgage</div>
         <NumberField label="Total mortgage balance" prefix={CURRENCIES[currency].symbol} value={mortgage.balance} onChange={(v) => updateMortgageField('balance', v)} step={500} />
         <NumberField label="Interest rate" suffix="%" value={mortgage.rate} onChange={(v) => updateMortgageField('rate', v)} step={0.05} />
         <SelectField

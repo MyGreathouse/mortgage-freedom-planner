@@ -29,7 +29,7 @@ export default function RentalCalcScreen({ app }: { app: AppState }) {
       <SectionHeader eyebrow="Property Wealth" title="Rental Property Calculator" />
 
       <Card>
-        <div className="text-[13px] font-bold text-teal mb-3">Purchase</div>
+        <div className="text-[13px] font-bold text-accentText mb-3">Purchase</div>
         <NumberField label="Purchase price" prefix={CURRENCIES[currency].symbol} value={purchasePrice} onChange={setPurchasePrice} step={1000} />
         <div className="mb-3.5">
           <div className="text-xs font-semibold text-ink-soft mb-1.5">
@@ -41,7 +41,7 @@ export default function RentalCalcScreen({ app }: { app: AppState }) {
       </Card>
 
       <Card>
-        <div className="text-[13px] font-bold text-teal mb-3">Income &amp; Costs</div>
+        <div className="text-[13px] font-bold text-accentText mb-3">Income &amp; Costs</div>
         <NumberField label="Expected monthly rental income" prefix={CURRENCIES[currency].symbol} value={rentalIncome} onChange={setRentalIncome} step={25} />
         <div className="mb-3.5">
           <div className="text-xs font-semibold text-ink-soft mb-1.5">

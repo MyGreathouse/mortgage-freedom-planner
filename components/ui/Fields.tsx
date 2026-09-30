@@ -20,7 +20,7 @@ export function NumberField({
   return (
     <label className="block mb-3.5">
       <div className="text-xs font-semibold text-ink-soft mb-1.5">{label}</div>
-      <div className="flex items-center border-[1.5px] border-line rounded-[10px] px-3 py-2.5 bg-[#FCFBF9] focus-within:border-gold transition-colors">
+      <div className="flex items-center border-[1.5px] border-line rounded-[10px] px-3 py-2.5 bg-[var(--color-field-bg)] focus-within:border-gold transition-colors">
         {prefix && <span className="text-ink-soft font-semibold mr-1.5">{prefix}</span>}
         <input
           type="number"
@@ -28,7 +28,7 @@ export function NumberField({
           value={value}
           step={step}
           onChange={(e: ChangeEvent<HTMLInputElement>) => onChange(parseFloat(e.target.value) || 0)}
-          className="border-0 outline-none bg-transparent w-full text-[15px] text-navy font-semibold"
+          className="border-0 outline-none bg-transparent w-full text-[15px] text-ink font-semibold"
         />
         {suffix && <span className="text-ink-soft font-semibold ml-1.5">{suffix}</span>}
       </div>
@@ -53,7 +53,7 @@ export function SelectField<T extends string>({
       <select
         value={value}
         onChange={(e) => onChange(e.target.value as T)}
-        className="w-full border-[1.5px] border-line rounded-[10px] px-3 py-2.5 bg-[#FCFBF9] text-[15px] text-navy font-semibold outline-none focus:border-gold transition-colors"
+        className="w-full border-[1.5px] border-line rounded-[10px] px-3 py-2.5 bg-[var(--color-field-bg)] text-[15px] text-ink font-semibold outline-none focus:border-gold transition-colors"
       >
         {options.map((o) => (
           <option key={o.value} value={o.value}>
@@ -73,7 +73,7 @@ export function DateField({ label, value, onChange }: { label: string; value: st
         type="date"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full border-[1.5px] border-line rounded-[10px] px-3 py-2.5 bg-[#FCFBF9] text-[15px] text-navy font-semibold outline-none focus:border-gold transition-colors"
+        className="w-full border-[1.5px] border-line rounded-[10px] px-3 py-2.5 bg-[var(--color-field-bg)] text-[15px] text-ink font-semibold outline-none focus:border-gold transition-colors"
       />
     </label>
   );

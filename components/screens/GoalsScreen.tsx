@@ -47,7 +47,7 @@ export default function GoalsScreen({ app }: { app: AppState }) {
             <button
               key={s}
               onClick={() => handleAdd(s)}
-              className="text-xs px-2.5 py-1.5 rounded-full border border-line bg-[#FCFBF9] text-ink-soft"
+              className="text-xs px-2.5 py-1.5 rounded-full border border-line bg-[var(--color-field-bg)] text-ink-soft"
             >
               + {s}
             </button>
@@ -62,7 +62,7 @@ export default function GoalsScreen({ app }: { app: AppState }) {
             className="w-[22px] h-[22px] rounded-md border-2 flex-shrink-0"
             style={{ borderColor: g.done ? 'var(--color-teal)' : 'var(--color-line)', background: g.done ? 'var(--color-teal)' : 'transparent' }}
           />
-          <div className={['flex-1 text-sm font-semibold', g.done ? 'text-ink-soft line-through' : 'text-navy'].join(' ')}>{g.title}</div>
+          <div className={['flex-1 text-sm font-semibold', g.done ? 'text-ink-soft line-through' : 'text-ink'].join(' ')}>{g.title}</div>
           <button onClick={() => removeGoal(g.id)} className="text-ink-soft border-0 bg-transparent">
             <CloseIcon />
           </button>

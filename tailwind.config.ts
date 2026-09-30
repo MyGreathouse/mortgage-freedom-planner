@@ -23,11 +23,13 @@ const config: Config = {
           light: 'var(--color-teal-light)'
         },
         canvas: 'var(--color-canvas)',
+        surface: 'var(--color-surface)',
         ink: {
           DEFAULT: 'var(--color-ink)',
           soft: 'var(--color-ink-soft)'
         },
         line: 'var(--color-line)',
+        accentText: 'var(--color-accent-text)',
         brand: {
           red: '#B3452E',
           green: '#1E7F5C'

@@ -28,13 +28,13 @@ export default function EquityReleaseScreen({ app }: { app: AppState }) {
       </Card>
 
       <Card>
-        <div className="text-[13px] font-bold text-teal mb-3">Projected Future Property Value</div>
+        <div className="text-[13px] font-bold text-accentText mb-3">Projected Future Property Value</div>
         <NumberField label="If your property grows to..." prefix={CURRENCIES[currency].symbol} value={projectedValue} onChange={setProjectedValue} step={5000} />
         <div className="text-xs text-ink-soft">Current value: {fmtCurrency(mortgage.currentValue, currency)}</div>
       </Card>
 
       <Card>
-        <div className="text-[13px] font-bold text-teal mb-3">Maximum Lender Loan-to-Value Assumption</div>
+        <div className="text-[13px] font-bold text-accentText mb-3">Maximum Lender Loan-to-Value Assumption</div>
         <input type="range" min={40} max={75} step={5} value={maxLTV} onChange={(e) => setMaxLTV(parseInt(e.target.value))} />
         <div className="font-display text-center font-bold mt-1.5">{maxLTV}% of property value</div>
       </Card>

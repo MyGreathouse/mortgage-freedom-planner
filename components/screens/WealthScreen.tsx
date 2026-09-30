@@ -66,7 +66,7 @@ export default function WealthScreen({ app }: { app: AppState }) {
       </Card>
 
       <Card>
-        <div className="text-[13px] font-bold text-teal mb-3">Mortgage Reduction</div>
+        <div className="text-[13px] font-bold text-accentText mb-3">Mortgage Reduction</div>
         <div className="flex flex-wrap gap-4 mb-2.5">
           <StatTile label="Original debt" value={fmtCurrency(mortgage.purchasePrice - mortgage.deposit, currency)} />
           <StatTile label="Current balance" value={fmtCurrency(mortgage.balance, currency)} />
@@ -76,11 +76,11 @@ export default function WealthScreen({ app }: { app: AppState }) {
       </Card>
 
       <Card>
-        <div className="text-[13px] font-bold text-teal mb-1">Where Your Payment Goes</div>
+        <div className="text-[13px] font-bold text-accentText mb-1">Where Your Payment Goes</div>
         <div className="text-[11.5px] text-ink-soft mb-3">Based on your current balance, rate, and monthly payment as entered in Profile</div>
 
         {breakdown.negativeAmortization ? (
-          <div className="text-[12.5px] text-brand-red leading-relaxed bg-[#FBEFEA] border border-[#E3B9A5] rounded-lg p-3">
+          <div className="text-[12.5px] text-brand-red leading-relaxed bg-[var(--color-warning-bg)] border border-[var(--color-warning-border)] rounded-lg p-3">
             Your current monthly payment doesn&apos;t fully cover the interest being charged, so none of it is reducing your balance yet.
             Double-check your rate and payment amount in Profile, or consider increasing your payment.
           </div>
@@ -93,21 +93,21 @@ export default function WealthScreen({ app }: { app: AppState }) {
             <ProgressBar pct={capitalPctOfPayment} color="var(--color-teal)" />
             <div className="text-xs text-ink-soft mt-2 mb-3">{capitalPctOfPayment.toFixed(1)}% of this payment reduces what you owe</div>
 
-            <div className="bg-[#FAF9F6] rounded-lg p-3 text-[12px] text-ink-soft leading-relaxed space-y-1">
+            <div className="bg-[var(--color-row-alt)] rounded-lg p-3 text-[12px] text-ink-soft leading-relaxed space-y-1">
               <div>
-                Monthly interest rate: {mortgage.rate}% ÷ 12 = <strong className="text-navy">{breakdown.monthlyRatePct.toFixed(3)}%</strong>
+                Monthly interest rate: {mortgage.rate}% ÷ 12 = <strong className="text-ink">{breakdown.monthlyRatePct.toFixed(3)}%</strong>
               </div>
               <div>
                 Interest charged: {fmtCurrency(mortgage.balance, currency)} × {breakdown.monthlyRatePct.toFixed(3)}% ={' '}
-                <strong className="text-navy">{fmtCurrency(breakdown.firstMonth.interestPortion, currency)}</strong>
+                <strong className="text-ink">{fmtCurrency(breakdown.firstMonth.interestPortion, currency)}</strong>
               </div>
               <div>
                 Capital repayment: {fmtCurrency(mortgage.monthlyPayment, currency)} − {fmtCurrency(breakdown.firstMonth.interestPortion, currency)} ={' '}
-                <strong className="text-navy">{fmtCurrency(breakdown.firstMonth.capitalPortion, currency)}</strong>
+                <strong className="text-ink">{fmtCurrency(breakdown.firstMonth.capitalPortion, currency)}</strong>
               </div>
             </div>
 
-            <div className="text-[13px] font-bold text-teal mt-4 mb-1">How This Changes Over Time</div>
+            <div className="text-[13px] font-bold text-accentText mt-4 mb-1">How This Changes Over Time</div>
             <div className="text-[12px] text-ink-soft leading-relaxed mb-3">
               Because your balance drops a little each month, the bank charges slightly less interest next time — so a little more of the
               same payment goes toward capital, and a little less toward interest. Here&apos;s how that split shifts over the years ahead:
@@ -124,11 +124,11 @@ export default function WealthScreen({ app }: { app: AppState }) {
                 </thead>
                 <tbody>
                   {breakdownMilestones.map((m, i) => (
-                    <tr key={m.month} className={i % 2 === 0 ? 'bg-[#FAF9F6]' : 'bg-white'}>
-                      <td className="px-2 py-1.5 border border-line font-bold text-navy">Y{m.year}</td>
+                    <tr key={m.month} className={i % 2 === 0 ? 'bg-[var(--color-row-alt)]' : 'bg-surface'}>
+                      <td className="px-2 py-1.5 border border-line font-bold text-ink">Y{m.year}</td>
                       <td className="px-2 py-1.5 border border-line text-right">{fmtCurrency(m.interestPortion, currency)}</td>
                       <td className="px-2 py-1.5 border border-line text-right">{fmtCurrency(m.capitalPortion, currency)}</td>
-                      <td className="px-2 py-1.5 border border-line text-right text-teal font-bold">
+                      <td className="px-2 py-1.5 border border-line text-right text-accentText font-bold">
                         {((m.capitalPortion / (m.interestPortion + m.capitalPortion)) * 100).toFixed(0)}%
                       </td>
                     </tr>
@@ -146,7 +146,7 @@ export default function WealthScreen({ app }: { app: AppState }) {
       </Card>
 
       <Card>
-        <div className="text-[13px] font-bold text-teal mb-3">Equity Growth</div>
+        <div className="text-[13px] font-bold text-accentText mb-3">Equity Growth</div>
         <div className="flex flex-wrap gap-4 mb-2.5">
           <StatTile label="Property value" value={fmtCurrency(mortgage.currentValue, currency)} />
           <StatTile label="Mortgage" value={fmtCurrency(mortgage.balance, currency)} />
@@ -159,7 +159,7 @@ export default function WealthScreen({ app }: { app: AppState }) {
       </Card>
 
       <Card>
-        <div className="text-[13px] font-bold text-teal mb-1">Goals Progress</div>
+        <div className="text-[13px] font-bold text-accentText mb-1">Goals Progress</div>
         <div className="text-[11.5px] text-ink-soft mb-2">
           Tap the box to mark complete · tap a goal for a wealth-growing suggestion · use the pencil to rename or the × to remove
         </div>
@@ -198,7 +198,7 @@ export default function WealthScreen({ app }: { app: AppState }) {
                       if (e.key === 'Enter') saveEdit(g.id);
                       if (e.key === 'Escape') setEditingGoalId(null);
                     }}
-                    className="flex-1 border-[1.5px] border-gold rounded-lg px-2 py-1.5 text-sm outline-none text-navy font-semibold"
+                    className="flex-1 border-[1.5px] border-gold rounded-lg px-2 py-1.5 text-sm outline-none text-ink font-semibold"
                   />
                   <button
                     onClick={(e) => {
@@ -212,7 +212,7 @@ export default function WealthScreen({ app }: { app: AppState }) {
                 </>
               ) : (
                 <>
-                  <div className={['flex-1 text-sm', g.done ? 'text-ink-soft line-through' : 'text-navy'].join(' ')}>{g.title}</div>
+                  <div className={['flex-1 text-sm', g.done ? 'text-ink-soft line-through' : 'text-ink'].join(' ')}>{g.title}</div>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();

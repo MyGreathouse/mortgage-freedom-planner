@@ -40,7 +40,7 @@ export default function NotificationsScreen({ app }: { app: AppState }) {
           <div className="w-[34px] h-[34px] rounded-[9px] bg-[var(--color-highlight-bg)] text-gold flex items-center justify-center flex-shrink-0">
             <n.Icon size={17} />
           </div>
-          <div className="text-[13.5px] text-navy leading-relaxed pt-1.5">{n.text}</div>
+          <div className="text-[13.5px] text-ink leading-relaxed pt-1.5">{n.text}</div>
         </Card>
       ))}
     </div>

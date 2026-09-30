@@ -24,7 +24,7 @@ function ToggleRow({
         onChange={(e) => onChange(e.target.checked)}
         className="w-4 h-4 accent-navy flex-shrink-0"
       />
-      <span className="text-[12.5px] text-navy font-semibold leading-snug">{label}</span>
+      <span className="text-[12.5px] text-ink font-semibold leading-snug">{label}</span>
     </label>
   );
 }
@@ -87,7 +87,7 @@ export default function CalculatorScreen({ app }: { app: AppState }) {
       <SectionHeader eyebrow="Freedom Calculator" title="Test a Strategy" />
 
       <Card>
-        <div className="text-[13px] font-bold text-teal mb-3">Extra Monthly Overpayment</div>
+        <div className="text-[13px] font-bold text-accentText mb-3">Extra Monthly Overpayment</div>
         <ToggleRow
           checked={monthlyOverpayEnabled}
           onChange={(v) => updateCalculatorSettings('monthlyOverpayEnabled', v)}
@@ -110,13 +110,13 @@ export default function CalculatorScreen({ app }: { app: AppState }) {
               value={monthlyOverpayAmount}
               onChange={(e) => updateCalculatorSettings('monthlyOverpayAmount', parseInt(e.target.value))}
             />
-            <div className="font-display text-center font-bold text-navy mt-1.5">+{fmtCurrency(monthlyOverpayAmount, currency)}/month</div>
+            <div className="font-display text-center font-bold text-ink mt-1.5">+{fmtCurrency(monthlyOverpayAmount, currency)}/month</div>
           </div>
         )}
       </Card>
 
       <Card>
-        <div className="text-[13px] font-bold text-teal mb-3">Annual Lump Sum</div>
+        <div className="text-[13px] font-bold text-accentText mb-3">Annual Lump Sum</div>
         <ToggleRow
           checked={lumpSumEnabled}
           onChange={(v) => updateCalculatorSettings('lumpSumEnabled', v)}
@@ -139,7 +139,7 @@ export default function CalculatorScreen({ app }: { app: AppState }) {
               value={lumpSumAmount}
               onChange={(e) => updateCalculatorSettings('lumpSumAmount', parseInt(e.target.value))}
             />
-            <div className="font-display text-center font-bold text-navy mt-1.5">{fmtCurrency(lumpSumAmount, currency)} once per year</div>
+            <div className="font-display text-center font-bold text-ink mt-1.5">{fmtCurrency(lumpSumAmount, currency)} once per year</div>
           </div>
         )}
       </Card>
@@ -180,12 +180,12 @@ export default function CalculatorScreen({ app }: { app: AppState }) {
       </Card>
 
       <Card>
-        <div className="font-display text-base font-bold mb-1.5 text-navy">
+        <div className="font-display text-base font-bold mb-1.5 text-ink">
           &ldquo;You have gained {monthsToYM(monthsSaved)} of financial freedom.&rdquo;
         </div>
         <div className="text-[13px] text-ink-soft leading-relaxed">
           Mortgage-free date moves from {fmtMonthYear(baselineFreeDate)} to{' '}
-          <strong className="text-teal">{fmtMonthYear(strategyFreeDate)}</strong>, keeping {fmtCurrency(interestSaved, currency)} in your pocket
+          <strong className="text-accentText">{fmtMonthYear(strategyFreeDate)}</strong>, keeping {fmtCurrency(interestSaved, currency)} in your pocket
           instead of the bank&apos;s.
         </div>
       </Card>

@@ -76,7 +76,7 @@ export default function ExportScreen({ app }: { app: AppState }) {
       <SectionHeader eyebrow="Export" title="My Mortgage Freedom Report" />
 
       <Card>
-        <div className="text-[13px] font-bold text-teal mb-3">Report Preview</div>
+        <div className="text-[13px] font-bold text-accentText mb-3">Report Preview</div>
         <div className="text-[13px] text-ink-soft leading-relaxed">
           Includes your current position ({fmtCurrency(mortgage.currentValue, currency)} value, {fmtCurrency(equity, currency)} equity),
           overpayment strategy summary, interest and time saved, and your financial goals — formatted as a shareable document.

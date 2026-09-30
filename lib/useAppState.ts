@@ -13,6 +13,8 @@ import {
 } from './types';
 import { DEFAULT_THEME_ID } from './themes';
 
+export type ColorMode = 'light' | 'dark';
+
 const STORAGE_KEY = 'mfp_state_v1';
 
 interface PersistedState {
@@ -21,6 +23,7 @@ interface PersistedState {
   currency: string;
   calculatorSettings?: CalculatorSettings;
   theme?: string;
+  mode?: ColorMode;
   repaymentTicks?: RepaymentTicks;
 }
 
@@ -41,6 +44,7 @@ export function useAppState() {
   const [currency, setCurrency] = useState<string>('GBP');
   const [calculatorSettings, setCalculatorSettings] = useState<CalculatorSettings>(DEFAULT_CALCULATOR_SETTINGS);
   const [theme, setTheme] = useState<string>(DEFAULT_THEME_ID);
+  const [mode, setModeState] = useState<ColorMode>('light');
   const [repaymentTicks, setRepaymentTicks] = useState<RepaymentTicks>(DEFAULT_REPAYMENT_TICKS);
   const [hydrated, setHydrated] = useState(false);
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
@@ -54,6 +58,7 @@ export function useAppState() {
       if (persisted.currency) setCurrency(persisted.currency);
       if (persisted.calculatorSettings) setCalculatorSettings({ ...DEFAULT_CALCULATOR_SETTINGS, ...persisted.calculatorSettings });
       if (persisted.theme) setTheme(persisted.theme);
+      if (persisted.mode) setModeState(persisted.mode);
       if (persisted.repaymentTicks) setRepaymentTicks({ ...DEFAULT_REPAYMENT_TICKS, ...persisted.repaymentTicks });
     }
     setHydrated(true);
@@ -65,13 +70,13 @@ export function useAppState() {
     try {
       window.localStorage.setItem(
         STORAGE_KEY,
-        JSON.stringify({ mortgage, goals, currency, calculatorSettings, theme, repaymentTicks })
+        JSON.stringify({ mortgage, goals, currency, calculatorSettings, theme, mode, repaymentTicks })
       );
       setLastSavedAt(new Date());
     } catch (e) {
       /* storage unavailable — fail silently, app still works in-memory */
     }
-  }, [mortgage, goals, currency, calculatorSettings, theme, repaymentTicks, hydrated]);
+  }, [mortgage, goals, currency, calculatorSettings, theme, mode, repaymentTicks, hydrated]);
 
   const saveMortgage = useCallback((next: Mortgage) => setMortgage(next), []);
   const updateMortgageField = useCallback(<K extends keyof Mortgage>(key: K, value: Mortgage[K]) => {
@@ -98,6 +103,10 @@ export function useAppState() {
 
   const updateCalculatorSettings = useCallback(<K extends keyof CalculatorSettings>(key: K, value: CalculatorSettings[K]) => {
     setCalculatorSettings((prev) => ({ ...prev, [key]: value }));
+  }, []);
+
+  const toggleMode = useCallback(() => {
+    setModeState((prev) => (prev === 'light' ? 'dark' : 'light'));
   }, []);
 
   const toggleMonthTick = useCallback((month: number) => {
@@ -136,6 +145,8 @@ export function useAppState() {
     updateCalculatorSettings,
     theme,
     setTheme,
+    mode,
+    toggleMode,
     repaymentTicks,
     toggleMonthTick,
     toggleYearTick,

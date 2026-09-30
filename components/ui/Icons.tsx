@@ -29,3 +29,5 @@ export const DownloadIcon = (p: IconProps) => base(p, <><path d="M12 3v12" /><pa
 export const EditIcon = (p: IconProps) => base({ size: 14, ...p }, <><path d="M12 20h9" /><path d="M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z" /></>);
 export const PlusIcon = (p: IconProps) => base({ size: 16, ...p }, <><path d="M12 5v14" /><path d="M5 12h14" /></>);
 export const ChecklistIcon = (p: IconProps) => base(p, <><rect x="3" y="4" width="6" height="6" rx="1" /><path d="M5.5 7l1 1 2-2" /><rect x="3" y="14" width="6" height="6" rx="1" /><path d="M5.5 17l1 1 2-2" /><line x1="12" y1="7" x2="21" y2="7" /><line x1="12" y1="17" x2="21" y2="17" /></>);
+export const SunIcon = (p: IconProps) => base(p, <><circle cx="12" cy="12" r="4.5" /><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12h2.5M19 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8" /></>);
+export const MoonIcon = (p: IconProps) => base(p, <path d="M20 14.5A8.5 8.5 0 019.5 4a7 7 0 108.5 10.5z" />);

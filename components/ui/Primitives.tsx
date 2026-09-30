@@ -25,7 +25,7 @@ export function SectionHeader({ eyebrow, title }: { eyebrow: string; title: stri
   return (
     <div className="mb-4 pt-1">
       <div className="text-[11px] tracking-widest uppercase text-gold font-bold">{eyebrow}</div>
-      <div className="font-display text-2xl font-bold text-navy mt-0.5">{title}</div>
+      <div className="font-display text-2xl font-bold text-ink mt-0.5">{title}</div>
     </div>
   );
 }
@@ -49,7 +49,7 @@ export function Chip({
       onClick={onClick}
       className={[
         'px-3 py-1.5 rounded-full border-[1.5px] text-[13px] font-bold transition-colors',
-        active ? activeClasses : 'border-line bg-white text-ink-soft'
+        active ? activeClasses : 'border-line bg-surface text-ink-soft'
       ].join(' ')}
     >
       {children}

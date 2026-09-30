@@ -12,7 +12,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(({ navy, className = '', chil
         'rounded-card p-[18px] mb-4 animate-fadeUp',
         navy
           ? 'bg-gradient-to-br from-navy to-navy-mid text-white border-0'
-          : 'bg-white border border-line shadow-card',
+          : 'bg-surface border border-line shadow-card',
         className
       ].join(' ')}
       {...rest}

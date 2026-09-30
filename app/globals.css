@@ -24,6 +24,16 @@
   --color-field-bg: #FCFBF9;
   --color-muted-line: #7C88A3;
   --shadow-glow: 0 4px 12px rgba(201, 162, 75, 0.35);
+
+  /* Mode-independent UI chrome (same across all 4 colour themes) */
+  --color-surface: #FFFFFF;
+  --color-row-alt: #FAF9F6;
+  --color-warning-bg: #FBEFEA;
+  --color-warning-border: #E3B9A5;
+  /* Card-header label colour: equals the active theme's teal in light mode,
+     overridden to a brighter fixed tone in dark mode so headers stay readable
+     against a dark surface without altering the teal used for gradient backgrounds. */
+  --color-accent-text: var(--color-teal);
 }
 
 /* ===== Theme: Teal Freedom ===== */
@@ -81,6 +91,25 @@ html[data-theme='ocean-blue'] {
   --color-field-bg: #FAFCFD;
   --color-muted-line: #8FA8C0;
   --shadow-glow: 0 4px 12px rgba(127, 169, 204, 0.35);
+}
+
+/* ===== Night mode — layered on top of whichever colour theme is active.
+   Only surface/text/chrome tokens change here; each theme's navy/gold/teal
+   brand colours are left alone so the header, buttons and gradient cards
+   look the same in both modes. This block must stay AFTER the theme blocks
+   above so it wins the cascade regardless of which theme is selected. ===== */
+html[data-mode='dark'] {
+  --color-canvas: #12151C;
+  --color-surface: #1B1F29;
+  --color-ink: #F0EEE9;
+  --color-ink-soft: #9AA3B5;
+  --color-line: #2E3340;
+  --color-highlight-bg: #2A2418;
+  --color-field-bg: #20232C;
+  --color-row-alt: #191D26;
+  --color-warning-bg: #3A1F1A;
+  --color-warning-border: #6B3A2E;
+  --color-accent-text: #3ED6C4;
 }
 
 html, body {
