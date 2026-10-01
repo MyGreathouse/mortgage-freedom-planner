@@ -1,0 +1,16 @@
+{
+  "name": "Mortgage Freedom Planner",
+  "short_name": "Freedom Planner",
+  "description": "See your mortgage-free date, model overpayment strategies, and build a plan toward property wealth.",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F6F5F1",
+  "theme_color": "#0B1E3D",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
