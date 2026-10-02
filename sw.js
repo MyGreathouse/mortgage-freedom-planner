@@ -1,9 +1,16 @@
 // Mortgage Freedom Planner — Service Worker
-// Bump CACHE_NAME whenever you ship a new deploy so returning visitors
-// get the fresh version instead of a stale cached one.
+//
+// IMPORTANT: the root page ("/") and manifest are always fetched fresh from the
+// network first (falling back to cache only if offline). Earlier versions of
+// this file cached "/" cache-first, which meant returning visitors could get
+// silently stuck on an old build forever — since "/" references Next.js's
+// per-build hashed JS filenames, an old cached "/" keeps pointing at old code
+// even after a brand new deploy succeeds. Only the hashed, per-build static
+// assets (safe, because their URL itself changes every build) stay cache-first
+// below, for fast offline loads.
 
-var CACHE_NAME = 'freedom-planner-v1';
-var APP_SHELL = ['/', '/manifest.json', '/icon-192.png', '/icon-512.png', '/icon-512-maskable.png'];
+var CACHE_NAME = 'freedom-planner-v2';
+var APP_SHELL = ['/manifest.json', '/icon-192.png', '/icon-512.png', '/icon-512-maskable.png'];
 
 self.addEventListener('install', function (event) {
   self.skipWaiting();
@@ -21,7 +28,7 @@ self.addEventListener('activate', function (event) {
   );
 });
 
-// Never cache API calls (the AI Coach) — always go to the network.
+// Never cache API calls — always go to the network.
 self.addEventListener('fetch', function (event) {
   var url = event.request.url;
   if (url.indexOf('/api/') !== -1) {
@@ -29,18 +36,35 @@ self.addEventListener('fetch', function (event) {
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request).then(function (cached) {
-      if (cached) return cached;
-      return fetch(event.request)
+  // Navigations (the page itself) and the manifest: network-first, so a new
+  // deploy is picked up on the very next load. Falls back to the last cached
+  // copy only if there's no connection at all.
+  var isNavigation = event.request.mode === 'navigate' || url.endsWith('/manifest.json');
+  if (isNavigation) {
+    event.respondWith(
+      fetch(event.request)
         .then(function (response) {
           var copy = response.clone();
           caches.open(CACHE_NAME).then(function (cache) { cache.put(event.request, copy); });
           return response;
         })
         .catch(function () {
-          if (event.request.mode === 'navigate') return caches.match('/');
-        });
+          return caches.match(event.request).then(function (cached) { return cached || caches.match('/'); });
+        })
+    );
+    return;
+  }
+
+  // Everything else (hashed build assets, icons): cache-first is safe here,
+  // since each build's files live at a unique URL and never need invalidating.
+  event.respondWith(
+    caches.match(event.request).then(function (cached) {
+      if (cached) return cached;
+      return fetch(event.request).then(function (response) {
+        var copy = response.clone();
+        caches.open(CACHE_NAME).then(function (cache) { cache.put(event.request, copy); });
+        return response;
+      });
     })
   );
 });
